@@ -1,18 +1,18 @@
-export * from './models/types.js';
-export * from './algorithms/formatter.js';
+export * from './models/types';
+export * from './algorithms/formatter';
 
 // Game Engine Exports
-export * from './game/types.js';
-export * from './game/constants.js';
-export * from './game/collision.js';
-export * from './game/food.js';
-export * from './game/scoring.js';
-export * from './game/gameModes.js';
-export * from './game/gameEngine.js';
+export * from './game/types';
+export * from './game/constants';
+export * from './game/collision';
+export * from './game/food';
+export * from './game/scoring';
+export * from './game/gameModes';
+export * from './game/gameEngine';
 
 export const CORE_VERSION = '1.0.0';
 
-export function createDefaultWorkspace(name = 'Modern Monorepo'): import('./models/types.js').WorkspaceMetadata {
+export function createDefaultWorkspace(name = 'Modern Monorepo'): import('./models/types').WorkspaceMetadata {
   return {
     id: 'ws_' + Math.random().toString(36).substring(2, 9),
     name,

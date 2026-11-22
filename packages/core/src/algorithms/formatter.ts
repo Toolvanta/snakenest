@@ -1,4 +1,4 @@
-import type { TextMetrics } from '../models/types.js';
+import type { TextMetrics } from '../models/types';
 
 /**
  * Generates a clean URL-friendly slug from an input string.

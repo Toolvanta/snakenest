@@ -3,10 +3,10 @@
 @variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-heading: 'Montserrat', sans-serif;
-  --font-body: 'Poppins', sans-serif;
-  --font-montserrat: 'Montserrat', sans-serif;
-  --font-poppins: 'Poppins', sans-serif;
+  --font-heading: var(--font-montserrat), sans-serif;
+  --font-body: var(--font-poppins), sans-serif;
+  --font-montserrat: var(--font-montserrat), sans-serif;
+  --font-poppins: var(--font-poppins), sans-serif;
 }
 
 /* =========================================================================
@@ -16,7 +16,7 @@
    ========================================================================= */
 
 :root {
-  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--font-poppins), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   font-feature-settings: 'tnum' on, 'cv02' on, 'cv03' on, 'cv04' on;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -27,7 +27,7 @@ body {
   overflow-x: hidden;
   max-width: 100%;
   width: 100%;
-  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--font-poppins), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
 /* Headings, Hero titles, and Brand Displays use Montserrat */
@@ -35,14 +35,14 @@ h1, h2, h3, h4, h5, h6,
 .font-heading,
 .font-montserrat,
 .brand-font {
-  font-family: 'Montserrat', 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-montserrat), var(--font-poppins), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 /* Paragraphs, descriptions, and UI text use Poppins for optimal reading comfort */
 p, label, li,
 .font-body,
 .font-poppins {
-  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-poppins), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 html {
@@ -224,4 +224,33 @@ html:not(.dark) header {
 html:not(.dark) footer {
   background-color: #ffffff !important;
   border-color: #e2e8f0 !important;
+}
+
+/* =========================================================================
+   ACCESSIBILITY & SCROLL CONTAINMENT (WCAG 2.2 AA & MODERN WEB GUIDANCE)
+   ========================================================================= */
+
+/* Prevent scroll chaining behind modal overlays and slide-out navigation */
+dialog,
+[role="dialog"],
+[aria-modal="true"] {
+  overscroll-behavior: contain;
+}
+
+/* Accessible focus ring for keyboard navigation */
+:focus-visible {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+}
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

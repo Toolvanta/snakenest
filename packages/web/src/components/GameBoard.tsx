@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import type { GameState, GameSettings, Direction } from '@project/core';
-import { useSwipeControls } from '../hooks/useSwipeControls.js';
+import { useSwipeControls } from '../hooks/useSwipeControls';
 
 interface GameBoardProps {
   gameState: GameState;

@@ -1,4 +1,4 @@
-import type { Position, GameMode } from './types.js';
+import type { Position, GameMode } from './types';
 
 export interface GameModeInfo {
   id: GameMode;

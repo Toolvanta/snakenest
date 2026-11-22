@@ -4,17 +4,17 @@ import type {
   Difficulty,
   Food,
   GameState
-} from './types.js';
-import { DIRECTION_VECTORS, OPPOSITE_DIRECTIONS } from './constants.js';
+} from './types';
+import { DIRECTION_VECTORS, OPPOSITE_DIRECTIONS } from './constants';
 import {
   getNextHeadPosition,
   checkSelfCollision,
   checkObstacleCollision,
   isSamePosition
-} from './collision.js';
-import { spawnFood, pruneExpiredFood } from './food.js';
-import { calculatePointsEarned, calculateLevel } from './scoring.js';
-import { TIME_CHALLENGE_FOOD_BONUS_SECONDS } from './constants.js';
+} from './collision';
+import { spawnFood, pruneExpiredFood } from './food';
+import { calculatePointsEarned, calculateLevel } from './scoring';
+import { TIME_CHALLENGE_FOOD_BONUS_SECONDS } from './constants';
 
 export interface TickEvent {
   ateFood?: Food;

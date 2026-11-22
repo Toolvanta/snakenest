@@ -9,7 +9,7 @@ import {
   Play,
   RotateCcw
 } from 'lucide-react';
-import { soundManager } from '../utils/audio.js';
+import { soundManager } from '../utils/audio';
 
 interface GameControlsProps {
   status: GameStatus;

@@ -1,6 +1,6 @@
-# Snake Game Online – Production-Ready SPA & Modern Monorepo
+# Snake Game Online – Production-Ready Next.js & Modern Monorepo
 
-A modern, accessible, high-performance **Snake Game single-page application (SPA)** built with React 19, TypeScript, Tailwind CSS v4, HTML5 Canvas, and native Web Audio API synthesis. Deployed as a static SPA on Netlify with zero external backend or database dependencies—100% playable offline.
+A modern, accessible, high-performance **Snake Game web application** built with Next.js (App Router), React 19, TypeScript, Tailwind CSS v4, HTML5 Canvas, and native Web Audio API synthesis. Deployed with static export on Netlify or Vercel with zero external backend or database dependencies—100% playable offline.
 
 ---
 
@@ -34,16 +34,17 @@ A modern, accessible, high-performance **Snake Game single-page application (SPA
   - Audio starts only on user interaction respecting browser autoplay policies; toggleable anytime.
 - **Theme Support**:
   - Modern dark arcade theme by default.
-  - Clean light mode theme with instant toggle.
+  - Clean light mode theme with instant toggle and zero-FOUC inline hydration check.
 - **LocalStorage Persistence**:
   - Versioned storage (`snake-game-settings-v1`, `snake-game-statistics-v1`).
   - Tracks high scores, best per mode, best per difficulty, total runs, food collected, and longest snake length.
   - Settings panel with confirmed factory reset option.
 - **Score Sharing**:
   - Web Share API integration with automatic fallback to clipboard copy.
-- **SEO & Accessibility**:
-  - Semantic HTML headings (`h1`, `h2`, `h3`), FAQ accordion, How to Play guide.
-  - Open Graph, Twitter cards, and Schema.org `VideoGame` & `WebSite` JSON-LD graph.
+- **Next.js SEO & Accessibility**:
+  - File-system App Router with pre-rendered routes (`/`, `/privacy-policy`, and custom 404).
+  - Next.js Metadata API with Open Graph, Twitter cards, and Schema.org `VideoGame` & `WebSite` JSON-LD graph.
+  - Self-hosted Google Fonts (`Montserrat` & `Poppins`) via `next/font/google` for zero layout shift.
   - Accessible ARIA labels, focus states, and `prefers-reduced-motion` support.
 
 ---
@@ -56,21 +57,24 @@ my-monorepo/
 │   ├── core/                  # Pure logic & algorithms engine (Zero UI dependencies)
 │   │   ├── src/
 │   │   │   ├── game/          # Game engine, collision, food, scoring, modes
-│   │   │   └── index.ts       # Unified exports with modern package.json source exports
+│   │   │   └── index.ts       # Unified exports
 │   │   └── tests/             # Vitest unit test suite (20 tests)
 │   │
-│   ├── web/                   # Snake Game SPA (React 19 + Tailwind v4 + Canvas)
-│   │   ├── public/            # robots.txt, sitemap.xml, site.webmanifest, 404.html, _redirects
+│   ├── web/                   # Snake Game Next.js App (Next.js 16 + React 19 + Tailwind v4)
+│   │   ├── public/            # robots.txt, sitemap.xml, site.webmanifest, favicon.svg
 │   │   ├── src/
+│   │   │   ├── app/           # Next.js App Router (layout.tsx, page.tsx, privacy-policy/, not-found.tsx)
 │   │   │   ├── components/    # Header, GameBoard, ScoreBoard, GameOverlay, Controls, Settings, FAQ
+│   │   │   ├── context/       # GameContext provider
 │   │   │   ├── hooks/         # useGameLoop, useKeyboardControls, useSwipeControls, useSnakeGame
 │   │   │   └── utils/         # audio (Web Audio API), storage, share
-│   │   └── vite.config.ts     # @tailwindcss/vite + direct @project/core resolution
+│   │   ├── next.config.mjs    # Next.js configuration (static export + core transpilation)
+│   │   └── postcss.config.mjs # Tailwind CSS v4 PostCSS configuration
 │   │
 │   └── extension/             # Chrome Extension (Manifest V3 Companion)
 │       └── vite.config.ts     # Dual-target Rollup bundling (background.js + popup.html)
 │
-├── netlify.toml               # Netlify SPA redirect & security headers configuration
+├── netlify.toml               # Netlify Next.js static deployment configuration
 └── package.json               # Workspace root scripts
 ```
 
@@ -89,7 +93,7 @@ npm install
 
 ### Development
 ```bash
-# Run web application dev server (port 3000)
+# Run Next.js web application dev server (port 3000)
 npm run dev
 
 # Run Chrome extension dev watch mode
@@ -104,8 +108,11 @@ npm run test
 
 ### Production Build
 ```bash
-# Build web SPA into packages/web/dist
+# Build Next.js web application (static export into packages/web/out)
 npm run build:web
+
+# Run preview server for built Next.js application
+npm run start:web
 
 # Build Chrome Extension into packages/extension/dist
 npm run build:ext
@@ -118,12 +125,12 @@ npm run build
 
 ## 🌐 Netlify Deployment
 
-The repository is configured for static SPA deployment out of the box via `netlify.toml`:
+The repository is configured for static export deployment out of the box via `netlify.toml`:
 
 ```toml
 [build]
   command = "npm run build:web"
-  publish = "packages/web/dist"
+  publish = "packages/web/out"
 
 [[redirects]]
   from = "/*"
@@ -139,7 +146,7 @@ The repository is configured for static SPA deployment out of the box via `netli
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
 
 [[headers]]
-  for = "/assets/*"
+  for = "/_next/static/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 ```
@@ -148,14 +155,16 @@ The repository is configured for static SPA deployment out of the box via `netli
 
 ## ✅ Quality Assurance & Testing Checklist
 
+- [x] **Next.js App Router**: Modern `src/app/` layout, pre-rendered static routes (`/`, `/privacy-policy`, `404`).
+- [x] **Monorepo Integration**: `@project/core` transpiled seamlessly into Next.js via `transpilePackages`.
+- [x] **Font Optimization**: Google Fonts loaded via `next/font/google` for zero layout shifts and offline support.
 - [x] **Movement & Controls**: Direction buffering prevents self-reversals (e.g. UP -> DOWN).
 - [x] **Collision Detection**: Wall collision (Classic/Time/Obstacles) and border wrap (Endless).
-- [x] **Food Placement**: Verified that food never spawns on top of the snake body or obstacle blocks.
+- [x] **Food Placement**: Food never spawns on top of the snake body or obstacle blocks.
 - [x] **Game Loop**: Delta-time accumulator using `requestAnimationFrame` ensures consistent movement speeds independent of monitor refresh rate (60Hz / 120Hz / 144Hz).
 - [x] **Touch & Gesture Handling**: `touch-action: none` prevents accidental page scrolling during swipe or D-pad gameplay.
 - [x] **Audio Synthesis**: Web Audio API frequencies synthesized cleanly without external audio network requests.
 - [x] **Persistence**: Settings and high-score records survive page refreshes with safe JSON parsing and default fallback.
 - [x] **Accessibility**: ARIA labels, keyboard focus outlines, and high contrast ratios across both dark and light modes.
 - [x] **Unit Testing**: 20/20 Vitest unit tests passing in `@project/core`.
-- [x] **Production Bundle**: Zero TypeScript or Vite bundling errors.
-
+- [x] **Production Bundle**: Zero TypeScript or Next.js build errors.

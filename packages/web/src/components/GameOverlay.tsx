@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { GameState, GameSettings } from '@project/core';
 import {
   Play,
@@ -7,7 +7,9 @@ import {
   Clock,
   Apple,
   Sparkles,
-  Gamepad2
+  Gamepad2,
+  Share2,
+  Check
 } from 'lucide-react';
 
 interface GameOverlayProps {
@@ -26,6 +28,8 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({
   onResume,
   onRestart
 }) => {
+  const [copied, setCopied] = useState(false);
+
   if (gameState.status === 'playing') return null;
 
   const isDark = settings.theme === 'dark';
@@ -35,6 +39,31 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({
   const secondaryBtnClass = isDark
     ? 'border-white/10 bg-slate-900/80 text-slate-200 hover:bg-slate-800 shadow-sm'
     : 'border-slate-200/90 bg-white text-slate-800 hover:bg-slate-50 shadow-sm';
+
+  const handleShare = async () => {
+    const text = `🐍 I scored ${gameState.score} points on SnakeNest (${settings.gameMode} mode, ${settings.difficulty} difficulty)! Can you beat me? Play free: https://snakenest.netlify.app/`;
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      try {
+        await navigator.share({
+          title: 'SnakeNest - Classic Retro Snake',
+          text,
+          url: 'https://snakenest.netlify.app/',
+        });
+        return;
+      } catch {
+        // Fallback to clipboard if share was cancelled or failed
+      }
+    }
+    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      try {
+        await navigator.clipboard.writeText(text);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch {
+        // clipboard access denied
+      }
+    }
+  };
 
   return (
     <div className={`absolute inset-0 z-30 flex items-center justify-center p-5 backdrop-blur-xl rounded-3xl animate-in fade-in duration-200 transition-all ${
@@ -171,12 +200,32 @@ export const GameOverlay: React.FC<GameOverlayProps> = ({
           </div>
 
           {/* Action Buttons */}
-          <div className="space-y-2 pt-0.5 sm:pt-1">
+          <div className="flex flex-col sm:flex-row items-center gap-2 pt-1 sm:pt-2">
             <button
               onClick={onRestart}
-              className="w-full flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 px-4 sm:px-5 py-3 sm:py-3.5 text-xs sm:text-sm font-bold text-white shadow-[0_10px_20px_-4px_rgba(16,185,129,0.4)] hover:brightness-110 transition-all active:scale-95 cursor-pointer"
+              aria-label="Play Again"
+              className="w-full flex-1 flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 px-4 sm:px-5 py-3 sm:py-3.5 text-xs sm:text-sm font-bold text-white shadow-[0_10px_20px_-4px_rgba(16,185,129,0.4)] hover:brightness-110 transition-all active:scale-95 cursor-pointer focus-visible:outline-2 focus-visible:outline-emerald-400"
             >
-              <RotateCcw className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <RotateCcw className="h-4 w-4" />
+              <span>Play Again</span>
+            </button>
+
+            <button
+              onClick={handleShare}
+              aria-label="Share Your Score"
+              className={`w-full sm:w-auto flex items-center justify-center gap-2 rounded-2xl border px-4 py-3 sm:py-3.5 text-xs sm:text-sm font-semibold transition-all cursor-pointer active:scale-95 focus-visible:outline-2 focus-visible:outline-emerald-400 ${secondaryBtnClass}`}
+            >
+              {copied ? (
+                <>
+                  <Check className="h-4 w-4 text-emerald-500" />
+                  <span className="text-emerald-500 font-bold">Copied!</span>
+                </>
+              ) : (
+                <>
+                  <Share2 className="h-4 w-4 text-slate-400" />
+                  <span>Share Score</span>
+                </>
+              )}
             </button>
           </div>
         </div>

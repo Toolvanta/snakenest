@@ -1,5 +1,5 @@
-import type { Difficulty, FoodType } from './types.js';
-import { FOOD_CONFIG, DIFFICULTY_MULTIPLIERS } from './constants.js';
+import type { Difficulty, FoodType } from './types';
+import { FOOD_CONFIG, DIFFICULTY_MULTIPLIERS } from './constants';
 
 /**
  * Calculates score points earned for eating a food item given current difficulty.

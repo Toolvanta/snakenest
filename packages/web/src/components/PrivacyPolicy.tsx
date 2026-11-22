@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
+import Link from 'next/link';
 import { ShieldCheck, Lock, Eye, Server, RefreshCw, ArrowLeft, CheckCircle2 } from 'lucide-react';
 
 interface PrivacyPolicyProps {
   theme?: 'dark' | 'light';
-  onNavigateHome: () => void;
+  onNavigateHome?: () => void;
 }
 
 export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({
@@ -13,8 +14,9 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({
   const isDark = theme === 'dark';
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    document.title = 'Privacy Policy – SnakeNest Snake Game';
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }, []);
 
   const cardBg = isDark
@@ -30,7 +32,8 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({
   return (
     <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8 animate-in fade-in duration-200">
       {/* Back Button */}
-      <button
+      <Link
+        href="/"
         onClick={onNavigateHome}
         className={`inline-flex items-center gap-2 rounded-xl border px-4 py-2 text-xs font-semibold tracking-wide transition-all active:scale-95 cursor-pointer ${
           isDark
@@ -40,7 +43,7 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({
       >
         <ArrowLeft className="h-4 w-4" />
         <span>Back to Game</span>
-      </button>
+      </Link>
 
       {/* Main Privacy Card */}
       <article className={`rounded-3xl border p-6 sm:p-10 backdrop-blur-xl space-y-8 ${cardBg}`}>
@@ -144,4 +147,3 @@ export const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({
     </div>
   );
 };
-

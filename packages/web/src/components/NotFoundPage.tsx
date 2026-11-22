@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
+import Link from 'next/link';
 import { Ghost, Home, Gamepad2, Compass } from 'lucide-react';
 
 interface NotFoundPageProps {
   theme?: 'dark' | 'light';
-  onNavigateHome: () => void;
+  onNavigateHome?: () => void;
 }
 
 export const NotFoundPage: React.FC<NotFoundPageProps> = ({
@@ -13,8 +14,9 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({
   const isDark = theme === 'dark';
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    document.title = '404 Page Not Found – SnakeNest Snake Game';
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }, []);
 
   const cardBg = isDark
@@ -50,23 +52,17 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({
 
         {/* Quick Actions */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
-          <button
+          <Link
+            href="/"
             onClick={onNavigateHome}
             className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 px-6 py-3.5 text-xs sm:text-sm font-bold tracking-wide text-white shadow-[0_10px_20px_-4px_rgba(16,185,129,0.4)] hover:brightness-110 transition-all transform active:scale-95 cursor-pointer"
           >
             <Home className="h-4 w-4" />
             <span>Return to Arena</span>
-          </button>
+          </Link>
 
-          <button
-            onClick={() => {
-              onNavigateHome();
-              // Small delay to ensure route renders home before scrolling
-              setTimeout(() => {
-                const el = document.getElementById('how-to-play');
-                el?.scrollIntoView({ behavior: 'smooth' });
-              }, 100);
-            }}
+          <Link
+            href="/#how-to-play"
             className={`w-full sm:w-auto flex items-center justify-center gap-2 rounded-2xl border px-6 py-3.5 text-xs sm:text-sm font-semibold transition-all active:scale-95 cursor-pointer ${
               isDark
                 ? 'border-white/10 bg-slate-900/80 text-slate-200 hover:bg-slate-800'
@@ -75,10 +71,9 @@ export const NotFoundPage: React.FC<NotFoundPageProps> = ({
           >
             <Gamepad2 className="h-4 w-4 text-emerald-500" />
             <span>Game Guide & FAQ</span>
-          </button>
+          </Link>
         </div>
       </div>
     </div>
   );
 };
-

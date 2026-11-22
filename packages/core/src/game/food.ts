@@ -1,6 +1,6 @@
-import type { Position, Food, FoodType } from './types.js';
-import { FOOD_CONFIG } from './constants.js';
-import { isPositionInList } from './collision.js';
+import type { Position, Food, FoodType } from './types';
+import { FOOD_CONFIG } from './constants';
+import { isPositionInList } from './collision';
 
 /**
  * Returns all available empty cells on the grid.

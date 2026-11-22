@@ -11,6 +11,8 @@
     "build": "npm run build --workspaces --if-present",
     "build:web": "npm run build --workspace=@project/web",
     "build:ext": "npm run build --workspace=@project/extension",
+    "start": "npm run start:web",
+    "start:web": "npm run start --workspace=@project/web",
     "test": "vitest run packages/core"
   },
   "devDependencies": {
@@ -19,4 +21,3 @@
     "vitest": "^3.0.7"
   }
 }
-

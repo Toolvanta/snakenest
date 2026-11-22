@@ -83,8 +83,11 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
               </div>
             </div>
             <button
+              role="switch"
+              aria-checked={settings.soundEnabled}
+              aria-label="Toggle Sound Effects"
               onClick={() => onUpdateSetting('soundEnabled', !settings.soundEnabled)}
-              className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors ${
+              className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors focus-visible:outline-2 focus-visible:outline-emerald-400 ${
                 settings.soundEnabled ? 'bg-emerald-600' : (isDark ? 'bg-slate-700' : 'bg-slate-300')
               }`}
             >
@@ -134,7 +137,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   onClick={() => onUpdateSetting('gridSize', size)}
                   className={`py-1.5 rounded-lg text-xs font-mono border transition-all ${
                     settings.gridSize === size
-                      ? 'border-emerald-500 bg-emerald-50 text-emerald-800 font-bold shadow-sm'
+                      ? isDark
+                        ? 'border-emerald-500 bg-emerald-950/60 text-emerald-300 font-bold shadow-sm ring-1 ring-emerald-500'
+                        : 'border-emerald-500 bg-emerald-50 text-emerald-800 font-bold shadow-sm ring-1 ring-emerald-500'
                       : isDark
                         ? 'border-slate-800 bg-slate-800/60 text-slate-400 hover:text-white'
                         : 'border-slate-200 bg-slate-100 text-slate-600 hover:text-slate-900'
@@ -156,8 +161,11 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
               </div>
             </div>
             <button
+              role="switch"
+              aria-checked={settings.showGridLines}
+              aria-label="Toggle Show Grid Lines"
               onClick={() => onUpdateSetting('showGridLines', !settings.showGridLines)}
-              className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors ${
+              className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors focus-visible:outline-2 focus-visible:outline-emerald-400 ${
                 settings.showGridLines ? 'bg-blue-600' : (isDark ? 'bg-slate-700' : 'bg-slate-300')
               }`}
             >
@@ -179,8 +187,11 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
               </div>
             </div>
             <button
+              role="switch"
+              aria-checked={settings.swipeEnabled}
+              aria-label="Toggle Touch Swipes"
               onClick={() => onUpdateSetting('swipeEnabled', !settings.swipeEnabled)}
-              className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors ${
+              className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors focus-visible:outline-2 focus-visible:outline-emerald-400 ${
                 settings.swipeEnabled ? 'bg-blue-600' : (isDark ? 'bg-slate-700' : 'bg-slate-300')
               }`}
             >
@@ -202,8 +213,11 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
               </div>
             </div>
             <button
+              role="switch"
+              aria-checked={settings.reducedMotion}
+              aria-label="Toggle Reduce Motion"
               onClick={() => onUpdateSetting('reducedMotion', !settings.reducedMotion)}
-              className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors ${
+              className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors focus-visible:outline-2 focus-visible:outline-emerald-400 ${
                 settings.reducedMotion ? 'bg-blue-600' : (isDark ? 'bg-slate-700' : 'bg-slate-300')
               }`}
             >

@@ -5,11 +5,12 @@ export interface ShareResult {
 }
 
 export async function shareGameScore(score: number, modeName: string): Promise<ShareResult> {
-  const shareText = `I scored ${score} points in Snake Game (${modeName})! Can you beat my score? 🐍 Play now: ${window.location.href}`;
+  const currentUrl = typeof window !== 'undefined' ? window.location.href : 'https://snakenest.netlify.app/';
+  const shareText = `I scored ${score} points in Snake Game (${modeName})! Can you beat my score? 🐍 Play now: ${currentUrl}`;
   const shareData = {
     title: 'Snake Game Online Score',
     text: shareText,
-    url: window.location.href
+    url: currentUrl
   };
 
   if (typeof navigator !== 'undefined' && navigator.share && navigator.canShare && navigator.canShare(shareData)) {
@@ -56,4 +57,3 @@ export async function shareGameScore(score: number, modeName: string): Promise<S
     message: 'Sharing is not supported on this device/browser.'
   };
 }
-

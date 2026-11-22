@@ -21,9 +21,9 @@ import {
   loadStoredStatistics,
   saveStoredStatistics,
   resetStoredData
-} from '../utils/storage.js';
-import { soundManager } from '../utils/audio.js';
-import { useGameLoop } from './useGameLoop.js';
+} from '../utils/storage';
+import { soundManager } from '../utils/audio';
+import { useGameLoop } from './useGameLoop';
 
 export function useSnakeGame() {
   const [settings, setSettings] = useState<GameSettings>(() => loadStoredSettings());

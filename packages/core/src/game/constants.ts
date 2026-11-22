@@ -1,4 +1,4 @@
-import type { Difficulty, GameSettings, GameStatistics, Direction } from './types.js';
+import type { Difficulty, GameSettings, GameStatistics, Direction } from './types';
 
 export const DEFAULT_GRID_SIZE = 20;
 

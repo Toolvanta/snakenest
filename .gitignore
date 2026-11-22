@@ -3,12 +3,13 @@ node_modules/
 .pnp
 .pnp.js
 
-# Production Builds
+# Production Builds & Next.js
 dist/
 build/
 out/
+.next/
 
-# Vite / Cache
+# Cache & Build Info
 .vite/
 *.tsbuildinfo
 
